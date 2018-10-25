@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class MetaSection {
+public class Meta {
     private final DateTimeFormatter DEFAULT_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private String pub;
@@ -18,7 +18,7 @@ public class MetaSection {
     private String fechaPub;
     private String pubDate;
 
-    public MetaSection(Node node) {
+    public Meta(Node node) {
         Element e = (Element) node;
         for (int i = 0; i < e.getChildNodes().getLength(); i++) {
             Node child = e.getChildNodes().item(i);

@@ -19,7 +19,7 @@ public class URLItem {
             case "urlPdf":
                 int sizeBytes = Integer.parseInt(el.getAttribute("szBytes"));
                 int numPag = Integer.parseInt( el.hasAttribute("numPag")?
-                        el.getAttribute("num") : "0");
+                        el.getAttribute("numPag") : "0");
                 return new URLItem(Type.PDF, el.getNodeValue(), numPag, sizeBytes);
             case "urlHtm":
                 return new URLItem(Type.HTML, el.getNodeValue(), 0, 0);
