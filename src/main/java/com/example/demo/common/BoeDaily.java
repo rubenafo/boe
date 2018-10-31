@@ -10,52 +10,46 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BoeDaily {
 
+    private Meta meta;
+    private List<Diario> diarios;
 
-    public void readConfig(String configFile) throws ParserConfigurationException {
+    public BoeDaily(String configFile) throws ParserConfigurationException, IOException, SAXException {
+        this(new FileInputStream(configFile));
+    }
+
+    public BoeDaily(InputStream inStream) throws ParserConfigurationException, IOException, SAXException {
+        this.diarios = new ArrayList<>();
         try {
-            DocumentBuilderFactory builderFactory =
-                    DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = null;
-            builder = builderFactory.newDocumentBuilder();
-            Document document = builder.parse(
-                    new FileInputStream(configFile));
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            Document document = builder.parse(inStream);
             Element rootElement = document.getDocumentElement();
-            NodeList nodes = rootElement.getChildNodes();
-
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Node node = nodes.item(i);
-                switch (node.getNodeName()) {
+            List<Node> childrenList = Utils.clean(rootElement.getChildNodes());
+            childrenList.forEach(child -> {
+                switch (child.getNodeName()) {
                     case "meta":
-                        new Meta(node);
+                        this.meta = new Meta(child);
                         break;
                     case "diario":
-                        new Diario (node);
+                        new Diario(child);
                 }
-                if (node instanceof Element) {
-                    Element child = (Element) node;
-                    NodeList nodes2 = child.getChildNodes();
-                    //for (int j = 0; j < nodes2.getLength(); j++)
-                    //System.out.println(nodes2.item(j));
-                }
-            }
+            });
         } catch (SAXException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
-
-    public abstract class XmlElem {
-
-        private Map<String, Object> elems = new HashMap<>();
-
-        //public abstract void fromXml(String xmlString);
     }
 }
