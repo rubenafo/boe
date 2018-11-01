@@ -1,5 +1,8 @@
 package com.example.demo.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -7,13 +10,22 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Meta {
+
+    @JsonIgnore
     private final DateTimeFormatter DEFAULT_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private String pub;
     private int anno;
+
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate fecha;
+
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate fechaAnt;
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate fechaAntAnt;
+
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate fechaSig;
     private String fechaPub;
     private String pubDate;

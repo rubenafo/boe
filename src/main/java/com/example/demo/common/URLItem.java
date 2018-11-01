@@ -15,16 +15,17 @@ public class URLItem {
     public static URLItem fromNode(Node xmlNode) {
         Element el = (Element) xmlNode;
         String name = el.getNodeName();
+        String path = el.getFirstChild().getNodeValue();
         switch (name) {
             case "urlPdf":
                 int sizeBytes = Integer.parseInt(el.getAttribute("szBytes"));
                 int numPag = Integer.parseInt( el.hasAttribute("numPag")?
                         el.getAttribute("numPag") : "0");
-                return new URLItem(Type.PDF, el.getNodeValue(), numPag, sizeBytes);
+                return new URLItem(Type.PDF, path, numPag, sizeBytes);
             case "urlHtm":
-                return new URLItem(Type.HTML, el.getNodeValue(), 0, 0);
+                return new URLItem(Type.HTML, path, 0, 0);
             case "urlXml":
-                return new URLItem(Type.XML, el.getNodeValue(), 0, 0);
+                return new URLItem(Type.XML, path, 0, 0);
             default:
                 throw new RuntimeException("Invalid URLItem node name: " + name);
         }

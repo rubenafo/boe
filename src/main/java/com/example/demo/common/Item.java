@@ -20,7 +20,7 @@ public class Item {
         List<Node> childNodes = Utils.clean(el.getChildNodes());
         childNodes.forEach(child -> {
             if (child.getNodeName().equals("titulo")) {
-                this.titulo = child.getNodeValue();
+                this.titulo = child.getFirstChild().getNodeValue();
             } else if (URLItem.isUrlItem(child.getNodeName())) {
                 URLItem urlItem = URLItem.fromNode(child);
                 this.urls.put(urlItem.getType(), urlItem);
