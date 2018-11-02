@@ -24,8 +24,15 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+dependencyManagement {
+	imports {
+		mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.440'
+	}
+}
+
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter-web")
+	compile 'com.amazonaws:aws-java-sdk-dynamodb'
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 	testCompile("junit:junit")
 	testCompile("commons-io:commons-io:2.6")

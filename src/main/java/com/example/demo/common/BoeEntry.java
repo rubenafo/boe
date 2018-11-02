@@ -1,5 +1,9 @@
 package com.example.demo.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,12 +18,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoeDaily {
 
+public class BoeEntry {
+
+    private String date;
     private Meta meta;
     private List<Diario> diarios;
 
-    public BoeDaily(InputStream inStream) throws ParserConfigurationException, IOException, SAXException {
+    public BoeEntry(InputStream inStream) {
         this.diarios = new ArrayList<>();
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -36,10 +42,22 @@ public class BoeDaily {
                         diarios.add(new Diario(child));
                 }
             });
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (meta != null)
+                this.date = "89";
+        } catch (SAXException | ParserConfigurationException | IOException e) {
+            throw new RuntimeException("Error parsing input stream ", e);
         }
     }
+
+    @DynamoDBHashKey(attributeName="date")
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date; }
+
+    @DynamoDBAttribute(attributeName="meta")
+    public Meta getMeta() { return meta; }
+    public void setMeta(Meta meta) { this.meta = meta;}
+//
+//    //@DynamoDBAttribute(attributeName="diarios")
+//    public List<Diario> getDiarios() { return diarios; }
+//    public void setDiarios(List<Diario> diarios) { this.diarios = diarios; }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -24,4 +25,16 @@ public class Departamento {
                 throw new RuntimeException("Invalid childName: " + child.getNodeName());
         });
     }
+
+    @DynamoDBAttribute(attributeName="nombre")
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    @DynamoDBAttribute(attributeName="epigrafe")
+    public Epigrafe getEpigrafe() { return epigrafe; }
+    public void setEpigrafe(Epigrafe epigrafe) { this.epigrafe = epigrafe; }
+
+    @DynamoDBAttribute(attributeName="item")
+    public Item getItem() { return item; }
+    public void setItem(Item item) { this.item = item; }
 }

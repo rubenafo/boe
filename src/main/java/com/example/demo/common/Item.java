@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -28,4 +29,16 @@ public class Item {
                 throw new RuntimeException("Invalid childName: " + child.getNodeName());
         });
     }
+
+    @DynamoDBAttribute(attributeName="id")
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    @DynamoDBAttribute(attributeName="titulo")
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
+
+    @DynamoDBAttribute(attributeName="urls")
+    public Map<URLItem.Type, URLItem> getUrls() { return urls; }
+    public void setUrls(Map<URLItem.Type, URLItem> urls) { this.urls = urls; }
 }

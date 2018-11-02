@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -23,4 +24,12 @@ public class Epigrafe {
                 throw new RuntimeException("Invalid childName: " + child.getNodeName());
         });
     }
+
+    @DynamoDBAttribute(attributeName="nombre")
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    @DynamoDBAttribute(attributeName="items")
+    public List<Item> getItems() { return items; }
+    public void setItems(List<Item> items) { this.items = items; }
 }

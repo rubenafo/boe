@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -11,6 +12,32 @@ public class URLItem {
     private int pdfPages;
     private int pdfBytes;
     private String relativeUrl;
+
+    public URLItem(Type type, String relUrl, int pages, int byteSize) {
+        this.type = type;
+        this.relativeUrl = relUrl;
+        this.pdfBytes = byteSize;
+        this.pdfPages = pages;
+    }
+
+    public static boolean isUrlItem(String nodeName) {
+        return nodeName.equals("urlPdf") || nodeName.equals("urlXml") || nodeName.equals("urlHtm");
+    }
+    public Type getType () {
+        return this.type;
+    }
+
+    @DynamoDBAttribute(attributeName="pdfPages")
+    public int getPdfPages() { return pdfPages; }
+    public void setPdfPages(int pdfPages) { this.pdfPages = pdfPages; }
+
+    @DynamoDBAttribute(attributeName="pdfBytes")
+    public int getPdfBytes() { return pdfBytes; }
+    public void setPdfBytes(int pdfBytes) { this.pdfBytes = pdfBytes; }
+
+    @DynamoDBAttribute(attributeName="relativeUrl")
+    public String getRelativeUrl() { return relativeUrl; }
+    public void setRelativeUrl(String relativeUrl) { this.relativeUrl = relativeUrl; }
 
     public static URLItem fromNode(Node xmlNode) {
         Element el = (Element) xmlNode;
@@ -30,20 +57,4 @@ public class URLItem {
                 throw new RuntimeException("Invalid URLItem node name: " + name);
         }
     }
-
-    public URLItem(Type type, String relUrl, int pages, int byteSize) {
-        this.type = type;
-        this.relativeUrl = relUrl;
-        this.pdfBytes = byteSize;
-        this.pdfPages = pages;
-    }
-
-    public static boolean isUrlItem(String nodeName) {
-        return nodeName.equals("urlPdf") || nodeName.equals("urlXml") || nodeName.equals("urlHtm");
-    }
-
-    public Type getType () {
-        return this.type;
-    }
-
 }

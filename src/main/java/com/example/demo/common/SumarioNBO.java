@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -23,6 +24,13 @@ public class SumarioNBO {
                 items.put(item.getType(), item);
             }
         });
-
     }
+
+    @DynamoDBAttribute(attributeName="id")
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    @DynamoDBAttribute(attributeName="items")
+    public Map<URLItem.Type, URLItem> getItems() { return items; }
+    public void setItems(Map<URLItem.Type, URLItem> items) { this.items = items; }
 }

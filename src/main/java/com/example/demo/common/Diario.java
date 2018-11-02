@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -26,4 +27,16 @@ public class Diario {
                 throw new RuntimeException("sumario_nbo expected, " + child.getNodeName() + " found");
         });
     }
+
+    @DynamoDBAttribute(attributeName="nbo")
+    public String getNbo() { return nbo; }
+    public void setNbo(String nbo) { this.nbo = nbo; }
+
+    @DynamoDBAttribute(attributeName="sumarioNbo")
+    public SumarioNBO getSumarioNbo() { return sumarioNbo; }
+    public void setSumarioNbo(SumarioNBO sumarioNbo) { this.sumarioNbo = sumarioNbo; }
+
+    @DynamoDBAttribute(attributeName="seccionList")
+    public List<Seccion> getSeccionList() { return seccionList; }
+    public void setSeccionList(List<Seccion> seccionList) { this.seccionList = seccionList; }
 }
