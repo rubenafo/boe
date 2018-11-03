@@ -3,7 +3,11 @@ package com.example.demo.common;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
+import com.example.demo.common.children.Diario;
+import com.example.demo.common.children.Item;
+import com.example.demo.common.children.Meta;
+import com.example.demo.common.children.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -12,13 +16,12 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@DynamoDBDocument
 public class BoeEntry {
 
     private String date;
@@ -60,4 +63,19 @@ public class BoeEntry {
     @DynamoDBAttribute
     public List<Diario> getDiarios() { return diarios; }
     public void setDiarios(List<Diario> diarios) { this.diarios = diarios; }
+
+    @DynamoDBIgnore
+    public List<Item> getItems () {
+        List<Item> items = new ArrayList<>();
+        this.diarios.forEach(d -> {
+            d.getSeccionList().forEach(s -> {
+                s.getDptos().forEach(dp -> {
+                    if (dp.getEpigrafe() != null)
+                        items.addAll(dp.getEpigrafe().getItems());
+                   items.addAll(dp.getItems());
+                });
+            });
+        });
+        return items;
+    }
 }

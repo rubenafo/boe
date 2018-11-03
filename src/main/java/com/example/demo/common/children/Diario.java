@@ -1,4 +1,4 @@
-package com.example.demo.common;
+package com.example.demo.common.children;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
