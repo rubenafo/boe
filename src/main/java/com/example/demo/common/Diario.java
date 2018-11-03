@@ -1,12 +1,14 @@
 package com.example.demo.common;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@DynamoDBDocument
 public class Diario {
 
     private String nbo;
@@ -28,15 +30,15 @@ public class Diario {
         });
     }
 
-    @DynamoDBAttribute(attributeName="nbo")
+    @DynamoDBAttribute
     public String getNbo() { return nbo; }
     public void setNbo(String nbo) { this.nbo = nbo; }
 
-    @DynamoDBAttribute(attributeName="sumarioNbo")
+    @DynamoDBAttribute
     public SumarioNBO getSumarioNbo() { return sumarioNbo; }
     public void setSumarioNbo(SumarioNBO sumarioNbo) { this.sumarioNbo = sumarioNbo; }
 
-    @DynamoDBAttribute(attributeName="seccionList")
+    @DynamoDBAttribute
     public List<Seccion> getSeccionList() { return seccionList; }
     public void setSeccionList(List<Seccion> seccionList) { this.seccionList = seccionList; }
 }

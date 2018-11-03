@@ -1,18 +1,21 @@
 package com.example.demo.common;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.sun.deploy.security.ValidationState;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@DynamoDBDocument
 public class Item {
 
     private String id;
     private String titulo;
-    private Map<URLItem.Type, URLItem> urls;
+    private Map<String, URLItem> urls;
 
     public Item(Node xmlNode) {
         Element el = (Element) xmlNode;
@@ -30,15 +33,16 @@ public class Item {
         });
     }
 
-    @DynamoDBAttribute(attributeName="id")
+    @DynamoDBAttribute
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    @DynamoDBAttribute(attributeName="titulo")
+    @DynamoDBAttribute
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
 
-    @DynamoDBAttribute(attributeName="urls")
-    public Map<URLItem.Type, URLItem> getUrls() { return urls; }
-    public void setUrls(Map<URLItem.Type, URLItem> urls) { this.urls = urls; }
+    @DynamoDBAttribute
+    public Map<String, URLItem> getUrls() { return urls; }
+    public void setUrls(Map<String, URLItem> urls) { this.urls = urls; }
+
 }

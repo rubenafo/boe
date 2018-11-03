@@ -2,6 +2,7 @@ package com.example.demo.common;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -20,48 +21,53 @@ public class Meta {
     private String pub;
     private int anno;
 
-    //@JsonSerialize(using = LocalDateSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate fecha;
 
-    //@JsonSerialize(using = LocalDateSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate fechaAnt;
+
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate fechaAntAnt;
 
-    //@JsonSerialize(using = LocalDateSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate fechaSig;
     private String fechaPub;
     private String pubDate;
 
-    @DynamoDBAttribute(attributeName="pub")
+    @DynamoDBAttribute
     public String getPub() { return pub; }
     public void setPub(String pub) { this.pub = pub; }
 
-    @DynamoDBAttribute(attributeName="anno")
+    @DynamoDBAttribute
     public int getAnno() { return anno; }
     public void setAnno(int anno) { this.anno = anno; }
 
-   // @DynamoDBAttribute(attributeName="fecha")
-//    public LocalDate getFecha() { return fecha; }
-//    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    @DynamoDBTypeConverted(converter = Utils.LocalDateConverter.class)
+    @DynamoDBAttribute
+    public LocalDate getFecha() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
 
-   // @DynamoDBAttribute(attributeName="fechaAnt")
+    @DynamoDBTypeConverted(converter = Utils.LocalDateConverter.class)
+    @DynamoDBAttribute
     public LocalDate getFechaAnt() { return fechaAnt; }
     public void setFechaAnt(LocalDate fechaAnt) { this.fechaAnt = fechaAnt; }
 
-   // @DynamoDBAttribute(attributeName="fechaAntAnt")
+    @DynamoDBTypeConverted(converter = Utils.LocalDateConverter.class)
+    @DynamoDBAttribute
     public LocalDate getFechaAntAnt() { return fechaAntAnt; }
     public void setFechaAntAnt(LocalDate fechaAntAnt) { this.fechaAntAnt = fechaAntAnt; }
 
-   // @DynamoDBAttribute(attributeName="fechaSig")
+    @DynamoDBTypeConverted(converter = Utils.LocalDateConverter.class)
+    @DynamoDBAttribute
     public LocalDate getFechaSig() { return fechaSig; }
     public void setFechaSig(LocalDate fechaSig) { this.fechaSig = fechaSig; }
 
-    @DynamoDBAttribute(attributeName="fechaPub")
+    @DynamoDBAttribute
     public String getFechaPub() { return fechaPub; }
     public void setFechaPub(String fechaPub) { this.fechaPub = fechaPub; }
 
-    @DynamoDBAttribute(attributeName="pubDate")
+    @DynamoDBAttribute
     public String getPubDate() { return pubDate; }
     public void setPubDate(String pubDate) { this.pubDate = pubDate; }
 

@@ -5,6 +5,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +21,16 @@ public class Utils {
         return cleanItems;
     }
 
-    public class DimensionTypeConverter implements DynamoDBTypeConverter<String, LocalDate> {
+    public static class LocalDateConverter implements DynamoDBTypeConverter<String, LocalDate> {
 
         @Override
-        public String convert(LocalDate object) {
-            return null;
+        public String convert(LocalDate date) {
+            return date.toString();
         }
 
         @Override
         public LocalDate unconvert(String object) {
-            return null;
+            return LocalDate.parse(object);
         }
     }
 }

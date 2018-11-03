@@ -43,21 +43,21 @@ public class BoeEntry {
                 }
             });
             if (meta != null)
-                this.date = "89";
+                this.date = meta.getFecha().toString();
         } catch (SAXException | ParserConfigurationException | IOException e) {
             throw new RuntimeException("Error parsing input stream ", e);
         }
     }
 
-    @DynamoDBHashKey(attributeName="date")
+    @DynamoDBHashKey
     public String getDate() { return date; }
     public void setDate(String date) { this.date = date; }
 
-    @DynamoDBAttribute(attributeName="meta")
+    @DynamoDBAttribute
     public Meta getMeta() { return meta; }
     public void setMeta(Meta meta) { this.meta = meta;}
-//
-//    //@DynamoDBAttribute(attributeName="diarios")
-//    public List<Diario> getDiarios() { return diarios; }
-//    public void setDiarios(List<Diario> diarios) { this.diarios = diarios; }
+
+    @DynamoDBAttribute
+    public List<Diario> getDiarios() { return diarios; }
+    public void setDiarios(List<Diario> diarios) { this.diarios = diarios; }
 }
