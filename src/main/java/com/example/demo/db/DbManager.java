@@ -6,8 +6,10 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig.TableNameOverride;
-import com.example.demo.common.BoeEntry;
-import com.example.demo.common.children.Item;
+import com.example.demo.common.docs.BoeDocument;
+import com.example.demo.common.summary.BoeEntry;
+import com.example.demo.common.summary.Item;
+import com.example.demo.net.BoeFetcher;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,12 +36,10 @@ public class DbManager {
     public void fetchBoe(String date) {
         BoeEntry boe = BoeFetcher.fromDate(date);
         dbMapper.batchWrite(Arrays.asList(boe), Collections.emptyList(), boeContentConfig);
-        List<Item> docs = boe.getItems();
-        System.out.println(docs.size());
+        List<BoeDocument> boeDocs = BoeFetcher.getDocuments(boe);
     }
 
     public static void main(String a[]) {
-        //dynamo.batchWrite(Arrays.asList(boe), Collections.emptyList(), config);
         DbManager db = new DbManager();
         db.fetchBoe("20181001");
     }

@@ -1,13 +1,13 @@
-package com.example.demo.common;
+package com.example.demo.common.summary;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
-import com.example.demo.common.children.Diario;
-import com.example.demo.common.children.Item;
-import com.example.demo.common.children.Meta;
-import com.example.demo.common.children.Utils;
+import com.example.demo.common.summary.Diario;
+import com.example.demo.common.summary.Item;
+import com.example.demo.common.summary.Meta;
+import com.example.demo.common.summary.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

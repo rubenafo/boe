@@ -1,4 +1,4 @@
-package com.example.demo.common.children;
+package com.example.demo.common.summary;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import org.w3c.dom.Element;
@@ -43,4 +43,8 @@ public class Item {
     public Map<String, URLItem> getUrls() { return urls; }
     public void setUrls(Map<String, URLItem> urls) { this.urls = urls; }
 
+    @DynamoDBIgnore
+    public URLItem getXML() {
+        return this.urls.get("xml");
+    }
 }
