@@ -1,9 +1,9 @@
 package com.example.demo.common.docs;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
-import com.example.demo.common.summary.Diario;
-import com.example.demo.common.summary.Meta;
+import com.example.demo.common.summary.BoeEntry;
 import com.example.demo.common.summary.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,9 +17,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+@DynamoDBDocument
 public class BoeDocument {
 
-    private String srcBoeEntry;
+    private String srcBoeId;
     private String boeDocId;
 
     //private MetaDatos metadatos; TODO
@@ -27,12 +28,12 @@ public class BoeDocument {
     private String text;
 
     @DynamoDBAttribute
-    public String getSrcBoeEntry() { return srcBoeEntry; }
-    public void setSrcBoeEntry(String srcBoeEntry) {
-        this.srcBoeEntry = srcBoeEntry;
+    public String getSrcBoeId() { return srcBoeId; }
+    public void setSrcBoeId(String srcBoeId) {
+        this.srcBoeId = srcBoeId;
     }
 
-    @DynamoDBIndexHashKey
+    @DynamoDBAttribute
     public String getBoeDocId() { return boeDocId; }
     public void setBoeDocId(String boeDocId) { this.boeDocId = boeDocId; }
 
@@ -40,7 +41,9 @@ public class BoeDocument {
     public String getText() { return text; }
     public void setText(String text) { this.text = text; }
 
-    public BoeDocument (InputStream inStream) {
+    public BoeDocument (BoeEntry srcBoeId, String boeDocId, InputStream inStream) {
+        this.srcBoeId = srcBoeId.getDiarios().get(0).getSumarioNbo().getId();
+        this.boeDocId = boeDocId;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
