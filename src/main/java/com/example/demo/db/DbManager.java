@@ -14,9 +14,11 @@ import com.example.demo.net.BoeFetcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class DbManager {
 
@@ -44,12 +46,24 @@ public class DbManager {
         ExecMeter meter = ExecMeter.start();
         logger.info ("Storing BOE={}, docs={}", boe.getDate(), boeDocs.size());
         dbMapper.batchWrite(Arrays.asList(boe), Collections.emptyList(), boeContentConfig);
-        dbMapper.batchWrite(boeDocs, Collections.emptyList(), boeDocsConfig);
-        logger.info("BOE successfully persisted time={}", meter.stop());
+        List<DynamoDBMapper.FailedBatch> failed = dbMapper.batchWrite(boeDocs, Collections.emptyList(), boeDocsConfig);
+        if (failed.isEmpty())
+            logger.info("BOE successfully persisted time={} secs", meter.stop());
+        else
+            logger.info("BOE partially persisted time={} secs, failed={}", meter.stop(), failed.size());
+    }
+
+    public void fetchBoeByMonth (int month, int year) {
+        LocalDate startingDate = LocalDate.of(year, month, 1);
+        int monthLength = startingDate.getMonth().length(startingDate.isLeapYear());
+        IntStream.range(1, monthLength+1).forEach(d -> {
+            String date = String.valueOf(year) + String.format("%02d",month) + String.format("%02d", d);
+            this.fetchBoe(date);
+        });
     }
 
     public static void main(String a[]) {
         DbManager db = new DbManager();
-        db.fetchBoe("20181001");
+        db.fetchBoeByMonth(10, 2018);
     }
 }
