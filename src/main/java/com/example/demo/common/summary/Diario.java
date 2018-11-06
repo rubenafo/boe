@@ -1,11 +1,14 @@
-package com.example.demo.common;
+package com.example.demo.common.summary;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@DynamoDBDocument
 public class Diario {
 
     private String nbo;
@@ -26,4 +29,16 @@ public class Diario {
                 throw new RuntimeException("sumario_nbo expected, " + child.getNodeName() + " found");
         });
     }
+
+    @DynamoDBAttribute
+    public String getNbo() { return nbo; }
+    public void setNbo(String nbo) { this.nbo = nbo; }
+
+    @DynamoDBAttribute
+    public SumarioNBO getSumarioNbo() { return sumarioNbo; }
+    public void setSumarioNbo(SumarioNBO sumarioNbo) { this.sumarioNbo = sumarioNbo; }
+
+    @DynamoDBAttribute
+    public List<Seccion> getSeccionList() { return seccionList; }
+    public void setSeccionList(List<Seccion> seccionList) { this.seccionList = seccionList; }
 }
